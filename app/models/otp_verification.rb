@@ -1,0 +1,2 @@
+class OtpVerification < ApplicationRecord
+end
