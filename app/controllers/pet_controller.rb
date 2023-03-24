@@ -8,7 +8,7 @@ class PetController < ApplicationController
     user = decode_token(token)
     birthday = Date.parse(values["Birthday"])
     if !values.empty?
-      @pet = Pet.new(Name: values["Name"], PetType: values["PetType"], Gender: values["Gender"], Breed: values["Breed"], Birthday: birthday, Weight: values["Weigth"], user_id: user.id)
+      @pet = Pet.new(Name: values["Name"], PetType: values["PetType"], Gender: values["Gender"], Breed: values["Breed"], Birthday: birthday, Weight: values["Weigth"], image_url: values["image_url"],user_id: user.id)
       @pet.save
       values["PreExistingConditions"].each do |i|
         condition = @pet.pre_existing_condition.create(value: i)

@@ -7,8 +7,13 @@ Rails.application.routes.draw do
   post "/userupdation" , to: "user#user_updation"
   post "/addaddress" , to: "user#add_address"
   get "/profilepage" , to: "user#all_details"
+
   #Add pets to a specific user
   post "/addpet" , to: "pet#add_pet"
   get "/petdetails" , to: "pet#pets_details"
 
+  #Data adding
+  post "/category" , to: "data_adding#category"
+  post "/subcategory" , to: "data_adding#sub_category"
+  post "/carousel" , to: "data_adding#carousel"
 end
