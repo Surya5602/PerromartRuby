@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_090453) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_27_053814) do
   create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "UnitNo"
     t.string "address"
@@ -20,6 +20,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_090453) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "brands", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "Name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "carousels", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -71,6 +77,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_090453) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "product_images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "image_url"
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_images_on_product_id"
+  end
+
   create_table "product_sub_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "SubCategory"
     t.string "PetType"
@@ -78,6 +92,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_090453) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_category_id"], name: "index_product_sub_categories_on_product_category_id"
+  end
+
+  create_table "products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "Name"
+    t.string "Perropoints"
+    t.string "Description", limit: 1000
+    t.string "NutritionalInfo", limit: 1000
+    t.string "FeedingInstructions", limit: 1000
+    t.string "Highlight", limit: 1000
+    t.bigint "product_sub_category_id", null: false
+    t.bigint "brand_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["product_sub_category_id"], name: "index_products_on_product_sub_category_id"
+  end
+
+  create_table "size_of_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "size"
+    t.string "price"
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_size_of_products_on_product_id"
   end
 
   create_table "toy_preferences", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -103,6 +141,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_090453) do
   add_foreign_key "food_allergies", "pets"
   add_foreign_key "pets", "users"
   add_foreign_key "pre_existing_conditions", "pets"
+  add_foreign_key "product_images", "products"
   add_foreign_key "product_sub_categories", "product_categories"
+  add_foreign_key "products", "brands"
+  add_foreign_key "products", "product_sub_categories"
+  add_foreign_key "size_of_products", "products"
   add_foreign_key "toy_preferences", "pets"
 end

@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Name: MyString
+  Perropoints: MyString
+  Description: MyString
+  NutritionalInfo: MyString
+  FeedingInstructions: MyString
+  Highlight: MyString
+  product_sub_category: one
+
+two:
+  Name: MyString
+  Perropoints: MyString
+  Description: MyString
+  NutritionalInfo: MyString
+  FeedingInstructions: MyString
+  Highlight: MyString
+  product_sub_category: two

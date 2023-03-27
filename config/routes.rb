@@ -16,4 +16,5 @@ Rails.application.routes.draw do
   post "/category" , to: "data_adding#category"
   post "/subcategory" , to: "data_adding#sub_category"
   post "/carousel" , to: "data_adding#carousel"
+  post "/addproduct" , to: "data_adding#add_product"
 end
