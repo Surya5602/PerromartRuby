@@ -17,4 +17,9 @@ Rails.application.routes.draw do
   post "/subcategory" , to: "data_adding#sub_category"
   post "/carousel" , to: "data_adding#carousel"
   post "/addproduct" , to: "data_adding#add_product"
+
+  #product data showing
+  get "/collections/:brand" , to: "product#fetch_brand"
+  get "/product" , to: "product#fetch_product"
+  get "/category/:category" , to: "product#fetch_category"
 end

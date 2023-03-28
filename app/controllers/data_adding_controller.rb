@@ -39,11 +39,17 @@ class DataAddingController < ApplicationController
     values = request.body.string
     values = JSON.parse(values)
     if values != nil
-      brand = Brand.new(Name: values["BrandName"])
-      brand.save
+      check_brand = Brand.find_by(Name: values["BrandName"])
+      if check_brand.present?
+        brand = check_brand
+      else
+        brand = Brand.new(Name: values["BrandName"])
+        brand.save
+      end
       product_sub_category = ProductSubCategory.find_by(SubCategory: values["subCategory"])
       if product_sub_category.present?
-        product = brand.products.create(Name: values["Name"], Perropoints: values["perropoints"], Description: values["Description"], NutritionalInfo: values["Nutritional info"], FeedingInstructions: values["Feeding instructions"], Highlight: values["Highlight"], product_sub_category_id: product_sub_category.id)
+        uuid = SecureRandom.uuid
+        product = brand.products.create(Name: values["Name"], Perropoints: values["perropoints"], Description: values["Description"], NutritionalInfo: values["Nutritional info"], FeedingInstructions: values["Feeding instructions"], Highlight: values["Highlight"], UUID: uuid, product_sub_category_id: product_sub_category.id)
         values["size"].each do |i|
           size = product.size_of_products.create(size: i, price: values["price"][i])
         end

@@ -7,6 +7,7 @@ class CreateProducts < ActiveRecord::Migration[7.0]
       t.string :NutritionalInfo , limit: 1000
       t.string :FeedingInstructions , limit: 1000
       t.string :Highlight , limit: 1000
+      t.string :UUID
       t.references :product_sub_category, null: false, foreign_key: true
       t.references :brand, null: false, foreign_key: true
 

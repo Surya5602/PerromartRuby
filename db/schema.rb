@@ -101,6 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_053814) do
     t.string "NutritionalInfo", limit: 1000
     t.string "FeedingInstructions", limit: 1000
     t.string "Highlight", limit: 1000
+    t.string "UUID"
     t.bigint "product_sub_category_id", null: false
     t.bigint "brand_id", null: false
     t.datetime "created_at", null: false
