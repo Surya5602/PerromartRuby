@@ -29,7 +29,7 @@ class PetController < ApplicationController
     pets_arr = []
     pets = user.pets
     pets.each do |i|  
-      data = {petsDetails: {petData: i , PreExistingConditions: i.pre_existing_condition , ToyPreference: i.toy_preference, FoodAllergy: i.food_allergy}}
+      data = {petsDetails: {petData: i , PreExistingConditions: i.pre_existing_condition.pluck(:value) , ToyPreference: i.toy_preference.pluck(:value), FoodAllergy: i.food_allergy.pluck(:value)}}
       pets_arr << data
     end
       if user.present?

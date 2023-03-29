@@ -1,0 +1,2 @@
+class DealImage < ApplicationRecord
+end

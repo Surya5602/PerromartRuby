@@ -1,0 +1,2 @@
+class PopularBanner < ApplicationRecord
+end

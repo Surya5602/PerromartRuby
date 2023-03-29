@@ -3,4 +3,6 @@ class Product < ApplicationRecord
   has_many :size_of_products
   belongs_to :product_sub_category
   belongs_to :brand
+  has_many :likes
+  has_many :carts
 end

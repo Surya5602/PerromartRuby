@@ -35,6 +35,49 @@ class DataAddingController < ApplicationController
     render json: { status: true, message: "Data added successfully" }
   end
 
+  def deals
+    petType = ["Dog", "Cat"]
+    values = request.body.string
+    values = JSON.parse(values)
+    petType.each do |petName|
+      pet = PetType.new(name: petName)
+      pet.save
+      values[petName].each do |i|
+        deal = pet.deals.create(deal_name: i)
+      end
+    end
+    values["image_url"].each do |image|
+      deal_image = DealImage.new(image_url: image)
+      deal_image.save
+    end
+    render json: { status: true, message: "Data added successfully" }
+  end
+
+  def popular_category
+    petType = ["Dog", "Cat"]
+    values = request.body.string
+    values = JSON.parse(values)
+    petType.each do |pet|
+      type = PetType.find_by(name: pet)
+      pet_image = PetImage.new(image_url: values[pet]["image"] , pet_type_id: type.id)
+      for i in 0...6 do
+        category = PopularCategory.new(category: values[pet]["data"][i] ,image_url: values[pet]["data_images"][i] , pet_type_id: type.id  )
+        category.save
+      end      
+    end
+    render json: { status: true, message: "Data added successfully" }
+  end
+
+  def popular_banner
+    values = request.body.string
+    values = JSON.parse(values)
+    values["image_url"].each do |i|
+      banner = PopularBanner.new(image_url: i)
+      banner.save
+    end
+    render json: { status: true, message: "Data added successfully" }
+  end
+
   def add_product
     values = request.body.string
     values = JSON.parse(values)
@@ -43,7 +86,7 @@ class DataAddingController < ApplicationController
       if check_brand.present?
         brand = check_brand
       else
-        brand = Brand.new(Name: values["BrandName"])
+        brand = Brand.new(Name: values["BrandName"], image_url: values["BrandImage"])
         brand.save
       end
       product_sub_category = ProductSubCategory.find_by(SubCategory: values["subCategory"])
