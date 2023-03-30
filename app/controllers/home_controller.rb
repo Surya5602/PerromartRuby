@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   include UserDetails
-
+  include ReviewDetails
   def home_page
     token = request.headers["Authorization"]
     user = decode_token(token)
@@ -60,8 +60,9 @@ class HomeController < ApplicationController
     product.each do |i|
     price = i.size_of_products.limit(1).pluck(:price)  
     images = i.product_images.pluck(:image_url)  
+    review = rating(i.UUID)
     product_details = {Name: i.Name ,Perropoints: i.Perropoints,Description: i.Description ,NutritionalInfo: i.NutritionalInfo , FeedingInstructions: i.FeedingInstructions , Highlight: i.Highlight , UUID: i.UUID   }
-    hash[i.id] = {product_details: product_details, product_images: images , product_price: price[0]}
+    hash[i.id] = {product_details: product_details, product_images: images , product_price: price[0] , product_rating: review}
     end
     return hash
   end

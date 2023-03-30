@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_29_105321) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_30_063045) do
   create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "UnitNo"
     t.string "address"
@@ -172,6 +172,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_105321) do
     t.index ["product_sub_category_id"], name: "index_products_on_product_sub_category_id"
   end
 
+  create_table "reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "Rating"
+    t.string "ReviewTitle"
+    t.string "Review"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.index ["product_id"], name: "index_reviews_on_product_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "size_of_products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "size"
     t.string "price"
@@ -215,6 +227,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_105321) do
   add_foreign_key "product_sub_categories", "product_categories"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "product_sub_categories"
+  add_foreign_key "reviews", "products"
+  add_foreign_key "reviews", "users"
   add_foreign_key "size_of_products", "products"
   add_foreign_key "toy_preferences", "pets"
 end

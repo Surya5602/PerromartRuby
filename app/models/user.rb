@@ -3,6 +3,7 @@ class User < ApplicationRecord
     has_many :pets
     has_many :likes
     has_many :carts
+    has_many :reviews
     # validates :MobileNumber,format: { with: /\A\+91[6-9][0-9]{9}\z/, message: "Must be a valid mobile number" }
     # validates :MobileNumber , uniqueness: { message: "Mobile number is already registered" }
     # PASSWORD_REGEX = /\A(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}\z/.freeze

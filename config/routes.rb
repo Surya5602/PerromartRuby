@@ -36,6 +36,9 @@ Rails.application.routes.draw do
   #Home page
   get "/landingpage" , to: "home#home_page"
   get "/landingpage/scroll1" , to: "home#scroll_1"
+
+  #Product Reviews
+  post "/addreview" , to: "review#add_review"
   
   
 end

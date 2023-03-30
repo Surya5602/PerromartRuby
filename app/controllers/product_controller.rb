@@ -1,12 +1,13 @@
 class ProductController < ApplicationController
   include UserDetails
-
+  include ReviewDetails
   def fetch_brand
     brand = Brand.find_by(Name: params[:brand])
     product = brand.products
     result_array = []
     product.each do |i|
-      value = { Product: i, ProductSubCategory: i.product_sub_category.SubCategory, PetType: i.product_sub_category.PetType, ProductImages: i.product_images.pluck(:image_url) }
+      review = rating(i.UUID)
+      value = { Product: i, ProductSubCategory: i.product_sub_category.SubCategory, PetType: i.product_sub_category.PetType, ProductImages: i.product_images.pluck(:image_url), rating: review}
       result_array << [value]
     end
     render json: { status: true, data: result_array }
@@ -16,8 +17,9 @@ class ProductController < ApplicationController
     uuid = request.query_parameters
     uuid = uuid["UUID"]
     product = Product.find_by(UUID: uuid)
+    review = rating(uuid)
     if product.present?
-      result = { Product: product, ProductImages: product.product_images.pluck(:image_url), ProductSubCategory: product.product_sub_category.SubCategory, PetType: product.product_sub_category.PetType }
+      result = { Product: product, ProductImages: product.product_images.pluck(:image_url), ProductSubCategory: product.product_sub_category.SubCategory, PetType: product.product_sub_category.PetType , rating: review}
       render json: { status: true, data: result }
     else
       render json: { status: false, message: "No product found in provided UUID" }
@@ -28,10 +30,17 @@ class ProductController < ApplicationController
     value = params[:category]
     value = value.split("-")
     category = ProductSubCategory.find_by(PetType: value[0], SubCategory: value[1])
+    hash = {}
+    result_array = []
     if category.present?
-      product = category.products.select(:Name, :Perropoints, :Description, :NutritionalInfo, :FeedingInstructions, :Highlight, :UUID)
+      product = category.products.select(:id ,:Name, :Perropoints, :Description, :NutritionalInfo, :FeedingInstructions, :Highlight, :UUID)
+      product.each do |i|
+      hash["product_details"] = i
+      hash["product_rating"] = rating(i.UUID)
+      result_array << hash
+      end
       if product.present?
-        render json: { status: true, data: product }
+        render json: { status: true, data: result_array }
       else
         render json: { status: false, message: "No products found" }
       end

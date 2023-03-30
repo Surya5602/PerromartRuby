@@ -5,4 +5,5 @@ class Product < ApplicationRecord
   belongs_to :brand
   has_many :likes
   has_many :carts
+  has_many :reviews
 end
