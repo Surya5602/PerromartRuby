@@ -17,9 +17,10 @@ class ProductController < ApplicationController
     uuid = request.query_parameters
     uuid = uuid["UUID"]
     product = Product.find_by(UUID: uuid)
-    review = rating(uuid)
+    rating = rating(uuid)
+    review = product.reviews.select(:ReviewTitle , :Review,:id)
     if product.present?
-      result = { Product: product, ProductImages: product.product_images.pluck(:image_url), ProductSubCategory: product.product_sub_category.SubCategory, PetType: product.product_sub_category.PetType , rating: review}
+      result = { Product: product,  ProductImages: product.product_images.pluck(:image_url), ProductSubCategory: product.product_sub_category.SubCategory, PetType: product.product_sub_category.PetType ,review: review, rating: rating}
       render json: { status: true, data: result }
     else
       render json: { status: false, message: "No product found in provided UUID" }
